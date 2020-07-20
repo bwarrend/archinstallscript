@@ -24,7 +24,4 @@
   ```
 ### 6. Follow the script's prompts
 
-## Official Arch Linux Installation Guide
-  ```
-  https://wiki.archlinux.org/index.php/installation_guide
-  ```
+## [Official Arch Linux Installation Guide](https://wiki.archlinux.org/index.php/installation_guide)
