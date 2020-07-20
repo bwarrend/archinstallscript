@@ -80,6 +80,7 @@ end
 
 updateSystemClock()
 partitionDrives()
+formatPartitions()
 
 
 
