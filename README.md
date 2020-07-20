@@ -1,3 +1,3 @@
-# Arch Linux Install Script - LUA
+# **Arch Linux Install Script - LUA**
 ## How To
 ### Test
