@@ -14,17 +14,17 @@
   ```
   cd install
   ```
-### 4. WGET the script:
-  ```
-  wget https://bit.ly/aLUAinstallS
+### 4. Download the script:
+  ```  
+  curl -L bit.ly/aLUAinstallS > install
   ```
 ### 5. Run the script:
   ```
-  lua innstall.lua
+  lua install
   ```
 ### 6. Follow the script's prompts
 
 ## Official Arch Linux Installation Guide
   ```
-  https://wiki.archlinux.org/index.php/installation_guide#Pre-installation
+  https://wiki.archlinux.org/index.php/installation_guide
   ```
