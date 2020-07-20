@@ -3,21 +3,21 @@
 todoList = {}
 
 todoList[1] = "Arch Linux Installer Script in LUA\n\n"
-todoList[2] = "\t[TODO] Update System Clock"
-todoList[3] = "\t[TODO] Partition Drives"
-todoList[4] = "\t[TODO] Format Partitions"
-todoList[5] = "\t[TODO] Mount Paritions"
-todoList[6] = "\t[TODO] Pacman Mirrors"
-todoList[7] = "\t[TODO] Install Essential Packages"
-todoList[8] = "\t[TODO] Generate Fstab"
-todoList[9] = "\t[TODO] Chroot in new system"
-todoList[10] = "\t[TODO] Set Time Zone"
-todoList[11] = "\t[TODO] Localization"
-todoList[12] = "\t[TODO] Network Configuration"
-todoList[13] = "\t[TODO] Initramfs"
-todoList[14] = "\t[TODO] Root password"
+todoList[2] = "\t[] Update System Clock"
+todoList[3] = "\t[] Partition Drives"
+todoList[4] = "\t[] Format Partitions"
+todoList[5] = "\t[] Mount Paritions"
+todoList[6] = "\t[] Pacman Mirrors"
+todoList[7] = "\t[] Install Essential Packages"
+todoList[8] = "\t[] Generate Fstab"
+todoList[9] = "\t[] Chroot in new system"
+todoList[10] = "\t[] Set Time Zone"
+todoList[11] = "\t[] Localization"
+todoList[12] = "\t[] Network Configuration"
+todoList[13] = "\t[] Initramfs"
+todoList[14] = "\t[] Root password"
 --EXIT CHROOT
-todoList[15] = "\t[TODO] Boot loader"
+todoList[15] = "\t[] Boot loader"
 
 
 function printTodo()
@@ -31,7 +31,7 @@ end
 function updateSystemClock()
     print("**Update System Clock**\n")
     os.execute("timedatectly set-ntp true")
-    todoList[2] = "[DONE] Update System Clock"
+    todoList[2] = "\t[*] Update System Clock"
     printTodo()
 end
 
@@ -53,6 +53,7 @@ function partitionDrives()
             disksP = true
         end
     end
+    todoList[3] = "\t[*] Partition Drives"
     printTodo()
 end
 
@@ -61,7 +62,6 @@ function formatPartitions()
     print("**Formation Paritions**\n")
     print("How many partitions need to be formatted? (DO NOT include swap)")
     drivesToP = io.read("*number")
-    drivesToP = drivesToP + 1   
 
     for i = 1, drivesToP, 1 do
         print("\nDrive ", i, ": ")
@@ -84,6 +84,7 @@ function formatPartitions()
         os.execute(mkswap)
         os.execute(swapon)
     end
+    todoList[4] = "\t[*] Format Partitions"
     printTodo()
 end
 
