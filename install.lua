@@ -67,7 +67,7 @@ function formatPartitions()
         print("\nDrive ", i, ": ")
         print("Type: mkfs.ext4 /dev/sdX#")
         print("Example: mkfs.ext4 /dev/sda5")
-        cmd = io.read()
+        local cmd = io.read()
         os.execute(cmd)
     end
 
