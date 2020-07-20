@@ -64,36 +64,53 @@ function formatPartitions()
     drivesToP = io.read("*number")
 
 
-    i = 1
+        local i = 1
 
-    while i <= driveToP do
-        print("\nDrive ", i, ": ")
-        print("Type: mkfs.ext4 /dev/sdX#")
-        print("Example: mkfs.ext4 /dev/sda5")
-        cmd = io.read()
-        os.execute(cmd)
-        i = i + 1
+        while i <= (drivesToP+1) do
+            os.execute("clear")
+            os.execute("lsblk")
+            print("\nDrive ", (i-1), ": ")
+            print("Type: mkfs.ext4 /dev/sdX#")
+            print("Example: mkfs.ext4 /dev/sda5")
+            local cmd = io.read("*line")
+            if cmd == nil then break end
+            os.execute(cmd)
+            i = i + 1
+        end
+
+
+    local didSwap = false
+    
+    while not didSwap do
+        os.execute("clear")
+        print("Did you designate a partition for swap? y/n")
+        swapA = io.read()
+
+        if swapA == "y" then
+            os.execute("lsblk")
+            print ("\nType:  mkswap /dev/sdX#")
+            print("Then type: swapon /dev/sdX#")
+            mkswap = io.read()
+            swapon = io.read()
+            
+            os.execute(mkswap)
+            os.execute(swapon)
+
+            didSwap = true
+            todoList[4] = "\t[*] Format Partitions"
+        elseif swapA == "n" then
+            didSwap = true
+            todoList[4] = "\t[*] Format Partitions"
+        end
     end
-
-
-    os.execute(clear)
-    print("Did you designate a partition for swap? y/n")
-    didSwap = io.read()
-
-    if didSwap == "y" then
-        os.execute("lsblk")
-        print ("\nType:  mkswap /dev/sdX#")
-        print("Then type: swapon /dev/sdX#")
-        mkswap = io.read()
-        swapon = io.read()
-        
-        os.execute(mkswap)
-        os.execute(swapon)
-    end
-    todoList[4] = "\t[*] Format Partitions"
     printTodo()
 end
 
+function mountPartitions()
+
+
+
+end
 
 
 
@@ -102,6 +119,7 @@ end
 updateSystemClock()
 partitionDrives()
 formatPartitions()
+mountPartitions()
 
 
 
