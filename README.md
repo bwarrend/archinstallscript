@@ -16,7 +16,7 @@
   ```
 ### 4. WGET the script:
   ```
-  wget https://raw.githubusercontent.com/bwarrend/archinstallscript/master/install.lua
+  wget https://bit.ly/aLUAinstallS
   ```
 ### 5. Run the script:
   ```
