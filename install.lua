@@ -82,7 +82,6 @@ function formatPartitions()
     local didSwap = false
     
     while not didSwap do
-        os.execute("clear")
         print("Did you designate a partition for swap? y/n")
         swapA = io.read()
 
@@ -107,10 +106,29 @@ function formatPartitions()
 end
 
 function mountPartitions()
+    print("**Mount Paritions**\n")
+    local i = 2
 
-
-
+    while i <= (drivesToP+1) do
+        os.execute("lsblk")
+        print("\nDrive ", (i-1), ": ")
+        print("Type: mount /dev/sdX# /mnt")
+        print("/mnt for root")
+        print("/mnt/efi   /mnt/home   /mnt/boot")
+        local cmd = io.read("*line")
+        if cmd == nil then break end
+        os.execute(cmd)
+        i = i + 1
+    end
+    todoList[5] = "\t[] Mount Paritions"
+    printTodo()
 end
+
+
+function pacmanMirrors()
+    print("**Pacman Mirrors**")
+    os.execute("reflector --latest 10 --sort rate --save /etc/pacman.d/mirrorlist")
+    
 
 
 
@@ -124,4 +142,4 @@ mountPartitions()
 
 
 --Mirrors
---reflector --verbose --latest 10 --sort rate --save /etc/pacman.d/mirrorlist
+--reflector --latest 10 --sort rate --save /etc/pacman.d/mirrorlist
