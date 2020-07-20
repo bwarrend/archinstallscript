@@ -61,8 +61,7 @@ function formatPartitions()
     print("**Formation Paritions**\n")
     print("How many partitions need to be formatted? (DO NOT include swap)")
     drivesToP = io.read("*number")
-    drivesToP = drivesToP + 1
-    
+    drivesToP = drivesToP + 1   
 
     for i = 1, drivesToP, 1 do
         print("\nDrive ", i, ": ")
@@ -70,10 +69,25 @@ function formatPartitions()
         print("Example: mkfs.ext4 /dev/sda5")
         cmd = io.read()
         os.execute(cmd)
-
-        
     end
+
+    print("Did you designate a partition for swap? y/n")
+    didSwap = io.read()
+
+    if didSwap == "y" then
+        os.execute("lsblk")
+        print ("Type:  mkswap /dev/sdX#")
+        print("Then type: swapon /dev/sdX#")
+        mkswap = io.read()
+        swapon = io.read()
+        
+        os.execute(mkswap)
+        os.execute(swapon)
+    end
+    printTodo()
 end
+
+
 
 
 
