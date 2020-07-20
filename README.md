@@ -1,7 +1,9 @@
 # Arch Linux Install Script - LUA
 ## How To
 ### 1. Create a directory called 'install':
+  '''
   mkdir install
+  '''
 ### 2. Change to the new directory:
   cd install
 ### 3. WGET the script:
