@@ -42,7 +42,7 @@ function partitionDrives()
     print("\nPress Enter to begin disk partitioning")
     io.read()
     disksP = false
-    local i = 1
+
     while not disksP do
         os.execute("sudo cfdisk")
         os.execute("clear")
@@ -63,20 +63,26 @@ function formatPartitions()
     print("How many partitions need to be formatted? (DO NOT include swap)")
     drivesToP = io.read("*number")
 
-    for i = 1, drivesToP, 1 do
+
+    i = 1
+
+    while i <= driveToP do
         print("\nDrive ", i, ": ")
         print("Type: mkfs.ext4 /dev/sdX#")
         print("Example: mkfs.ext4 /dev/sda5")
-        local cmd = io.read()
+        cmd = io.read()
         os.execute(cmd)
+        i = i + 1
     end
 
+
+    os.execute(clear)
     print("Did you designate a partition for swap? y/n")
     didSwap = io.read()
 
     if didSwap == "y" then
         os.execute("lsblk")
-        print ("Type:  mkswap /dev/sdX#")
+        print ("\nType:  mkswap /dev/sdX#")
         print("Then type: swapon /dev/sdX#")
         mkswap = io.read()
         swapon = io.read()
