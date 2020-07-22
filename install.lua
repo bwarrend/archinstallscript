@@ -10,7 +10,7 @@ todoList[5] = "\t[] Mount Paritions"
 todoList[6] = "\t[] Pacman Mirrors"
 todoList[7] = "\t[] Install Essential Packages"
 todoList[8] = "\t[] Generate Fstab"
-todoList[9] = "\t[] Chroot in new system"
+todoList[9] = "\t[] Chroot into new system"
 todoList[10] = "\t[] Set Time Zone"
 todoList[11] = "\t[] Localization"
 todoList[12] = "\t[] Network Configuration"
@@ -128,7 +128,75 @@ end
 function pacmanMirrors()
     print("**Pacman Mirrors**")
     os.execute("reflector --latest 10 --sort rate --save /etc/pacman.d/mirrorlist")
+
+    todoList[6] = "\t[*] Pacman Mirrors"
+    printTodo()
+end
+
+
+
+function installEssentialPackages()
+    print("**Install Essential Packages**")
+    os.execute("pacstrap /mnt base linux linux-firmware networkmanager")
+        
+    todoList[7] = "\t[*] Install Essential Packages"
+    printTodo()
+end
+
+
+
+function generateFstab()
+    print("**Generate Fstab**")
+    os.execute("genfstab -U /mnt >> /mnt/etc/fstab")    
     
+    todoList[8] = "\t[*] Generate Fstab"
+    printTodo()
+end
+
+
+function chrootIntoNewSystem()
+    print"**Chroot int new system**")
+    os.execute("arch-chroot /mnt")
+    todoList[9] = "\t[*] Chroot into new system"
+    printTodo()
+end
+
+
+function setTimeZone()
+    print("**Set Time Zone**")
+    print("Do you want to see all available time zones? y/n")
+    seeTimeZones = io.read()
+    
+    if seeTimeZones == "y"
+        os.execute("timedatectl list-timezones")
+    end
+
+    print("Type REGION/SUBZONE\n")
+    print("*Examples for USA*")
+    print("America/New_York")
+    print("America/Chicago")
+    print("America/Denver")
+    print("America/Los_Angeles")
+    print("America/Anchorage")
+    print("Pacific/Honolulu")
+
+    regionSubZone = io.read()
+
+    os.execute("ln -sf /usr/share/zoneinfo/"..regionSubZone.." /etc/localtime")
+    os.execute("hwclock --systohc")
+
+    todoList[10] = "\t[*] Set Time Zone"
+    printTodo()
+end
+
+
+function setLocalization()
+    
+
+
+    todoList[11] = "\t[*] Localization"
+    printTodo()
+end
 
 
 
@@ -138,8 +206,9 @@ updateSystemClock()
 partitionDrives()
 formatPartitions()
 mountPartitions()
+pacmanMirrors()
+installEssentialPackages()
+generateFstab()
+chrootIntoNewSystem()
+setTimeZone()
 
-
-
---Mirrors
---reflector --latest 10 --sort rate --save /etc/pacman.d/mirrorlist
