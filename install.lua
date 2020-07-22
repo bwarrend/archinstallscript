@@ -166,7 +166,7 @@ function setTimeZone()
     print("Do you want to see all available time zones? y/n")
     seeTimeZones = io.read()
     
-    if seeTimeZones == "y"
+    if seeTimeZones == "y" then
         os.execute("timedatectl list-timezones")
     end
 
