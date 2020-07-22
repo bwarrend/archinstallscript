@@ -16,7 +16,6 @@ todoList[11] = "\t[] Localization"
 todoList[12] = "\t[] Network Configuration"
 todoList[13] = "\t[] Initramfs"
 todoList[14] = "\t[] Root password"
---EXIT CHROOT
 todoList[15] = "\t[] Boot loader"
 
 
@@ -191,14 +190,88 @@ end
 
 
 function setLocalization()
-    
+    print("**Set Localization**")
+    os.execute("sed -i 's/#en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/g' /etc/locale.gen")
 
+    os.execute("locale-gen")
+
+    os.execute("echo \"LANG=en_US.UTF-8\" > /etc/locale.conf")
 
     todoList[11] = "\t[*] Localization"
     printTodo()
 end
 
 
+function networkConfiguration()
+    print("**Network Configuration**")
+    print("Type a hostname:")
+    hostname = io.read()
+    
+    os.execute("echo "..hostname.." > /etc/hostname")
+    
+    os.execute("echo \"127.0.0.1 localhost\" > /etc/hosts")
+    os.execute("echo \"::1 localhost\" >> /etc/hosts")
+    os.execute("echo \"127.0.1.1 "..hostname..".localdomain "..hostname.."\" >> /etc/hosts")
+
+    todoList[12] = "\t[*] Network Configuration"
+    printTodo()
+end
+
+function setInitramfs()
+    print("**Initramfs**")
+    os.execute("mkinitcpio -P")
+
+    todoList[13] = "\t[*] Initramfs"
+    printTodo()
+end
+
+function setRootPassword()
+    print("**Set Root Password**")
+    os.execute("passwd")
+
+    todoList[14] = "\t[*] Root password"
+    printTodo()
+end
+
+function installBootLoader()
+    print("**Install Boot Loader**")
+    blInstalled = false
+
+    while not blInstalled do
+        print("UEFI or BIOS boot? (UEFI/BIOS)")
+        bootStyle = io.read()
+
+        if bootStyle == "UEFI" then
+            os.execute("pacman -S grub --noconfirm")
+            os.execute("pacman -S efibootmgr --noconfirm")
+            print("Type mount point of efi partition (ex: /mnt/efi")
+            esp = io.read()            
+            os.execute("grub-install --target=x86_64-efi --efi-directory="..esp.." --bootloader-id=GRUB")
+            os.execute("grub-mkconfig -o /boot/grub/grub.cfg")
+
+            todoList[15] = "\t[*] Boot loader"
+            printTodo()
+
+        elseif bootStyle == "BIOS" then
+            os.execute("pacman -S grub --noconfirm")
+            os.execute("lsblk")
+            print("\nWhich device to install bootloader?")
+            print("Just type sda for example")
+            blDevice = io.read()
+            os.execute("grub-install --target=i386-pc /dev/"..blDevice..)
+            os.execute("grub-mkconfig -o /boot/grub/grub.cfg")
+
+            todoList[15] = "\t[*] Boot loader"
+            printTodo()
+        end
+        
+    
+    
+
+
+    
+
+end
 
 
 
@@ -211,4 +284,8 @@ installEssentialPackages()
 generateFstab()
 chrootIntoNewSystem()
 setTimeZone()
-
+setLocalization()
+networkConfiguration()
+setInitramfs()
+setRootPassword()
+installBootLoader()
