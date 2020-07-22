@@ -154,7 +154,7 @@ end
 
 
 function chrootIntoNewSystem()
-    print"**Chroot int new system**")
+    print"(**Chroot int new system**")
     os.execute("arch-chroot /mnt")
     todoList[9] = "\t[*] Chroot into new system"
     printTodo()
