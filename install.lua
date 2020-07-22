@@ -25,6 +25,7 @@ function printTodo()
     for i, line in pairs(todoList) do
         print(line)
     end
+    print("\n")
 end
 
 function updateSystemClock()
@@ -107,6 +108,9 @@ function formatPartitions()
 end
 
 function mountPartitions()
+    os.execute("mkdir /mnt/efi")
+    os.execute("mkdir /mnt/boot")
+    os.execute("mkdir /mnt/home")
     print("**Mount Paritions**\n")
     local i = 2
 
