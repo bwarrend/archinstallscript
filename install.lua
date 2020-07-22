@@ -222,6 +222,7 @@ function networkConfiguration()
     os.execute("arch-chroot /mnt echo \"127.0.0.1 localhost\" > /etc/hosts")
     os.execute("arch-chroot /mnt echo \"::1 localhost\" >> /etc/hosts")
     os.execute("arch-chroot /mnt echo \"127.0.1.1 "..hostname..".localdomain "..hostname.."\" >> /etc/hosts")
+    os.execute("arch-chroot /mnt systemctl enable NetworkManager")
 
     todoList[12] = "\t[*] Network Configuration"
     printTodo()
