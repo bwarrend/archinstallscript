@@ -63,19 +63,19 @@ function formatPartitions()
     drivesToP = io.read("*number")
 
 
-        local i = 1
+    local i = 1
 
-        while i <= (drivesToP+1) do
-            os.execute("clear")
-            os.execute("lsblk")
-            print("\nDrive ", (i-1), ": ")
-            print("Type: mkfs.ext4 /dev/sdX#")
-            print("Example: mkfs.ext4 /dev/sda5")
-            local cmd = io.read("*line")
-            if cmd == nil then break end
-            os.execute(cmd)
-            i = i + 1
-        end
+    while i <= (drivesToP+1) do
+        os.execute("clear")
+        os.execute("lsblk")
+        print("\nDrive ", (i-1), ": ")
+        print("Type: mkfs.ext4 /dev/sdX#")
+        print("Example: mkfs.ext4 /dev/sda5")
+        local cmd = io.read("*line")
+        if cmd == nil then break end
+        os.execute(cmd)
+        i = i + 1
+    end    
 
 
     local didSwap = false
@@ -258,19 +258,13 @@ function installBootLoader()
             print("\nWhich device to install bootloader?")
             print("Just type sda for example")
             blDevice = io.read()
-            os.execute("grub-install --target=i386-pc /dev/"..blDevice)
+            os.execute("grub-install --target=i386-pc /dev/"..blDevicenano)
             os.execute("grub-mkconfig -o /boot/grub/grub.cfg")
 
             todoList[15] = "\t[*] Boot loader"
             printTodo()
         end
-        
-    
-    
-
-
-    
-
+    end
 end
 
 
