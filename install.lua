@@ -126,7 +126,7 @@ function mountPartitions()
         os.execute(cmd)
         i = i + 1
     end
-    todoList[5] = "\t[] Mount Paritions"
+    todoList[5] = "\t[*] Mount Paritions"
     printTodo()
 end
 
@@ -288,7 +288,7 @@ mountPartitions()
 pacmanMirrors()
 installEssentialPackages()
 generateFstab()
-chrootIntoNewSystem()
+--chrootIntoNewSystem()
 setTimeZone()
 setLocalization()
 networkConfiguration()
