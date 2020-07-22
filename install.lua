@@ -70,8 +70,8 @@ function formatPartitions()
         os.execute("clear")
         os.execute("lsblk")
         print("\nDrive ", (i-1), ": ")
-        print("Type: mkfs.ext4 /dev/sdX#")
-        print("Root/Boot Example: mkfs.ext4 /dev/sda5")
+        print("\nType: mkfs.ext4 /dev/sdX#")
+        print("\nRoot/Boot Example: mkfs.ext4 /dev/sda5")
         print("EFI Example: mkfs.fat -F32 /dev/sdb1")
         
         local cmd = io.read("*line")
@@ -80,7 +80,8 @@ function formatPartitions()
         i = i + 1
     end    
 
-
+    os.execute("clear")
+    printTodo()
     local didSwap = false
     
     while not didSwap do
@@ -267,7 +268,7 @@ function installBootLoader()
             print("\nWhich device to install bootloader?")
             print("Just type sda for example")
             blDevice = io.read()
-            os.execute("arch-chroot /mnt grub-install --target=i386-pc /dev/"..blDevicenano)
+            os.execute("arch-chroot /mnt grub-install --target=i386-pc /dev/"..blDevice)
             os.execute("arch-chroot /mnt grub-mkconfig -o /boot/grub/grub.cfg")
 
             todoList[15] = "\t[*] Boot loader"
