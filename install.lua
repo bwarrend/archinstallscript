@@ -70,7 +70,9 @@ function formatPartitions()
         os.execute("lsblk")
         print("\nDrive ", (i-1), ": ")
         print("Type: mkfs.ext4 /dev/sdX#")
-        print("Example: mkfs.ext4 /dev/sda5")
+        print("Root/Boot Example: mkfs.ext4 /dev/sda5")
+        print("EFI Example: mkfs.fat -F32 /dev/sdb1")
+        
         local cmd = io.read("*line")
         if cmd == nil then break end
         os.execute(cmd)
