@@ -254,7 +254,7 @@ function installBootLoader()
         if bootStyle == "UEFI" then
             os.execute("arch-chroot /mnt pacman -S grub --noconfirm")
             os.execute("arch-chroot /mnt pacman -S efibootmgr --noconfirm")
-            print("Type mount point of efi partition (ex: /mnt/efi")
+            print("Type mount point of efi partition (ex: /efi")
             esp = io.read()            
             os.execute("arch-chroot /mnt grub-install --target=x86_64-efi --efi-directory="..esp.." --bootloader-id=GRUB")
             os.execute("arch-chroot /mnt grub-mkconfig -o /boot/grub/grub.cfg")
