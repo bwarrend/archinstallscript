@@ -258,7 +258,7 @@ function installBootLoader()
             print("\nWhich device to install bootloader?")
             print("Just type sda for example")
             blDevice = io.read()
-            os.execute("grub-install --target=i386-pc /dev/"..blDevice..)
+            os.execute("grub-install --target=i386-pc /dev/"..blDevice)
             os.execute("grub-mkconfig -o /boot/grub/grub.cfg")
 
             todoList[15] = "\t[*] Boot loader"
