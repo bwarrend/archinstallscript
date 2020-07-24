@@ -278,7 +278,7 @@ function installBootLoader()
 end
 
 
-if arg[1] == "chroot"
+if arg[1] == "chroot" then
     setTimeZone()
     setLocalization()
     networkConfiguration()
