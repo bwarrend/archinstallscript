@@ -165,6 +165,7 @@ end
 function chrootIntoNewSystem()
     print("**Chroot int new system**")
     os.execute("cp install /mnt/home/install")
+    print("Press Enter to Chroot into the new system")
     os.execute("arch-chroot /mnt lua /home/install chroot")
     todoList[9] = "\t[*] Chroot into new system"
     printTodo()
