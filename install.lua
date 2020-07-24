@@ -248,7 +248,7 @@ end
 function installBootLoader()
     print("**Install Boot Loader**")
     blInstalled = false
-
+    --[[
     while not blInstalled do
         print("UEFI or BIOS boot? (UEFI/BIOS)")
         bootStyle = io.read()
@@ -277,6 +277,8 @@ function installBootLoader()
             printTodo()
         end
     end
+    ]]--
+    print("do it yourself")
 end
 
 
