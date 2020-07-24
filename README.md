@@ -27,4 +27,4 @@
 ## [Official Arch Linux Installation Guide](https://wiki.archlinux.org/index.php/installation_guide)
 
 
-Issues: Having a lot of trouble getting grub boot loader to work.  Need to work the process out manually a few times and then maybe I'll see what I'm doing wrong.  Until then, it needs to be done manually.
+Issues: Only BIOS boot works for now. So use a DOS style partition table.

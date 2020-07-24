@@ -254,7 +254,7 @@ function installBootLoader()
         bootStyle = io.read()
 
         if bootStyle == "UEFI" then
-            os.execute("pacman -S grub efibootmgr dosfstools os-prober libisoburn --noconfirm")
+            --[[os.execute("pacman -S grub efibootmgr dosfstools os-prober libisoburn --noconfirm")
             print("Type mount point of efi partition (ex: /efi")
             esp = io.read()            
             os.execute("grub-install --target=x86_64-efi --efi-directory="..esp.." --bootloader-id=GRUB")
@@ -262,6 +262,8 @@ function installBootLoader()
 
             todoList[15] = "\t[*] Boot loader"
             printTodo()
+            ]]--
+            print("This feature is not working, sorry.")
 
         elseif bootStyle == "BIOS" then
             os.execute("pacman -S grub --noconfirm")
@@ -274,6 +276,7 @@ function installBootLoader()
 
             todoList[15] = "\t[*] Boot loader"
             printTodo()
+            blInstalled = true
         end
     end
     
