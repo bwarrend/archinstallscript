@@ -248,14 +248,13 @@ end
 function installBootLoader()
     print("**Install Boot Loader**")
     blInstalled = false
-    --[[
+    
     while not blInstalled do
         print("UEFI or BIOS boot? (UEFI/BIOS)")
         bootStyle = io.read()
 
         if bootStyle == "UEFI" then
-            os.execute("pacman -S grub --noconfirm")
-            os.execute("pacman -S efibootmgr --noconfirm")
+            os.execute("pacman -S grub efibootmgr dosfstools os-prober libisoburn --noconfirm")
             print("Type mount point of efi partition (ex: /efi")
             esp = io.read()            
             os.execute("grub-install --target=x86_64-efi --efi-directory="..esp.." --bootloader-id=GRUB")
@@ -268,7 +267,7 @@ function installBootLoader()
             os.execute("pacman -S grub --noconfirm")
             os.execute("lsblk")
             print("\nWhich device to install bootloader?")
-            print("Just type sda for example")
+            print("Example")
             blDevice = io.read()
             os.execute("grub-install --target=i386-pc /dev/"..blDevice)
             os.execute("grub-mkconfig -o /boot/grub/grub.cfg")
@@ -277,7 +276,7 @@ function installBootLoader()
             printTodo()
         end
     end
-    ]]--
+    
     print("do it yourself")
 end
 
