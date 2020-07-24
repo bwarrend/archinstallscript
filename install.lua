@@ -144,7 +144,7 @@ end
 
 function installEssentialPackages()
     print("**Install Essential Packages**")
-    os.execute("pacstrap /mnt base linux linux-firmware networkmanager")
+    os.execute("pacstrap /mnt base linux linux-firmware networkmanager lua")
         
     todoList[7] = "\t[*] Install Essential Packages"
     printTodo()
