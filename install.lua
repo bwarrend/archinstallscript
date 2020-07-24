@@ -295,5 +295,5 @@ else
     pacmanMirrors()
     installEssentialPackages()
     generateFstab()
-    --chrootIntoNewSystem()
+    chrootIntoNewSystem()
 end
