@@ -10,13 +10,13 @@ todoList[5] = "\t[] Mount Paritions"
 todoList[6] = "\t[] Pacman Mirrors"
 todoList[7] = "\t[] Install Essential Packages"
 todoList[8] = "\t[] Generate Fstab"
---todoList[9] = "\t[] Chroot into new system"
-todoList[9] = "\t[] Set Time Zone"
-todoList[10] = "\t[] Localization"
-todoList[11] = "\t[] Network Configuration"
-todoList[12] = "\t[] Initramfs"
-todoList[13] = "\t[] Root password"
-todoList[14] = "\t[] Boot loader"
+todoList[9] = "\t[] Chroot into new system"
+todoList[10] = "\t[] Set Time Zone"
+todoList[11] = "\t[] Localization"
+todoList[12] = "\t[] Network Configuration"
+todoList[13] = "\t[] Initramfs"
+todoList[14] = "\t[] Root password"
+todoList[15] = "\t[] Boot loader"
 
 
 function printTodo()
@@ -161,15 +161,14 @@ function generateFstab()
 end
 
 
---[[
+
 function chrootIntoNewSystem()
     print("**Chroot int new system**")
     os.execute("cp install /mnt/home/install")
-    os.execute("arch-chroot /mnt ")
+    os.execute("arch-chroot /mnt lua /home/install chroot")
     todoList[9] = "\t[*] Chroot into new system"
     printTodo()
 end
-]]--
 
 function setTimeZone()
     print("**Set Time Zone**")
@@ -191,8 +190,8 @@ function setTimeZone()
 
     regionSubZone = io.read()
 
-    os.execute("arch-chroot /mnt ln -sf /usr/share/zoneinfo/"..regionSubZone.." /etc/localtime")
-    os.execute("arch-chroot /mnt hwclock --systohc")
+    os.execute("ln -sf /usr/share/zoneinfo/"..regionSubZone.." /etc/localtime")
+    os.execute("hwclock --systohc")
 
     todoList[10] = "\t[*] Set Time Zone"
     printTodo()
@@ -201,11 +200,11 @@ end
 
 function setLocalization()
     print("**Set Localization**")
-    os.execute("arch-chroot /mnt sed -i 's/#en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/g' /etc/locale.gen")
+    os.execute("sed -i 's/#en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/g' /etc/locale.gen")
 
-    os.execute("arch-chroot /mnt locale-gen")
+    os.execute("locale-gen")
 
-    os.execute("arch-chroot /mnt echo \"LANG=en_US.UTF-8\" > /etc/locale.conf")
+    os.execute("echo \"LANG=en_US.UTF-8\" > /etc/locale.conf")
 
     todoList[11] = "\t[*] Localization"
     printTodo()
@@ -217,12 +216,12 @@ function networkConfiguration()
     print("Type a hostname:")
     hostname = io.read()
     
-    os.execute("arch-chroot /mnt echo "..hostname.." > /etc/hostname")
+    os.execute("echo "..hostname.." > /etc/hostname")
     
-    os.execute("arch-chroot /mnt echo \"127.0.0.1 localhost\" > /etc/hosts")
-    os.execute("arch-chroot /mnt echo \"::1 localhost\" >> /etc/hosts")
-    os.execute("arch-chroot /mnt echo \"127.0.1.1 "..hostname..".localdomain "..hostname.."\" >> /etc/hosts")
-    os.execute("arch-chroot /mnt systemctl enable NetworkManager")
+    os.execute("echo \"127.0.0.1 localhost\" > /etc/hosts")
+    os.execute("echo \"::1 localhost\" >> /etc/hosts")
+    os.execute("echo \"127.0.1.1 "..hostname..".localdomain "..hostname.."\" >> /etc/hosts")
+    os.execute("systemctl enable NetworkManager")
 
     todoList[12] = "\t[*] Network Configuration"
     printTodo()
@@ -230,7 +229,7 @@ end
 
 function setInitramfs()
     print("**Initramfs**")
-    os.execute("arch-chroot /mnt mkinitcpio -P")
+    os.execute("mkinitcpio -P")
 
     todoList[13] = "\t[*] Initramfs"
     printTodo()
@@ -238,7 +237,7 @@ end
 
 function setRootPassword()
     print("**Set Root Password**")
-    os.execute("arch-chroot /mnt passwd")
+    os.execute("passwd")
 
     todoList[14] = "\t[*] Root password"
     printTodo()
@@ -253,24 +252,24 @@ function installBootLoader()
         bootStyle = io.read()
 
         if bootStyle == "UEFI" then
-            os.execute("arch-chroot /mnt pacman -S grub --noconfirm")
-            os.execute("arch-chroot /mnt pacman -S efibootmgr --noconfirm")
+            os.execute("pacman -S grub --noconfirm")
+            os.execute("pacman -S efibootmgr --noconfirm")
             print("Type mount point of efi partition (ex: /efi")
             esp = io.read()            
-            os.execute("arch-chroot /mnt grub-install --target=x86_64-efi --efi-directory="..esp.." --bootloader-id=GRUB")
-            os.execute("arch-chroot /mnt grub-mkconfig -o /boot/grub/grub.cfg")
+            os.execute("grub-install --target=x86_64-efi --efi-directory="..esp.." --bootloader-id=GRUB")
+            os.execute("grub-mkconfig -o /boot/grub/grub.cfg")
 
             todoList[15] = "\t[*] Boot loader"
             printTodo()
 
         elseif bootStyle == "BIOS" then
-            os.execute("arch-chroot /mnt pacman -S grub --noconfirm")
-            os.execute("arch-chroot /mnt lsblk")
+            os.execute("pacman -S grub --noconfirm")
+            os.execute("lsblk")
             print("\nWhich device to install bootloader?")
             print("Just type sda for example")
             blDevice = io.read()
-            os.execute("arch-chroot /mnt grub-install --target=i386-pc /dev/"..blDevice)
-            os.execute("arch-chroot /mnt grub-mkconfig -o /boot/grub/grub.cfg")
+            os.execute("grub-install --target=i386-pc /dev/"..blDevice)
+            os.execute("grub-mkconfig -o /boot/grub/grub.cfg")
 
             todoList[15] = "\t[*] Boot loader"
             printTodo()
@@ -279,21 +278,20 @@ function installBootLoader()
 end
 
 
-
-
-
-
-updateSystemClock()
-partitionDrives()
-formatPartitions()
-mountPartitions()
-pacmanMirrors()
-installEssentialPackages()
-generateFstab()
---chrootIntoNewSystem()
-setTimeZone()
-setLocalization()
-networkConfiguration()
-setInitramfs()
-setRootPassword()
-installBootLoader()
+if arg[1] == "chroot"
+    setTimeZone()
+    setLocalization()
+    networkConfiguration()
+    setInitramfs()
+    setRootPassword()
+    installBootLoader()
+else
+    updateSystemClock()
+    partitionDrives()
+    formatPartitions()
+    mountPartitions()
+    pacmanMirrors()
+    installEssentialPackages()
+    generateFstab()
+    --chrootIntoNewSystem()
+end
